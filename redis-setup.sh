@@ -7,6 +7,7 @@ if [ -x "$(command -v docker)" ]; then
   log_success "Docker is installed"
 else
   log_failure "Docker is not installed"
+  exit
 fi
 
 # Clear previous Redis docker containers that might be running
@@ -14,9 +15,9 @@ docker stop redis1
 docker stop redis2
 docker stop redis3
 
-docker remove redis1
-docker remove redis2
-docker remove redis3
+docker container rm -v redis1
+docker container rm -v redis2
+docker container rm -v redis3
 
 docker network rm $CLUSTER_NETWORK_NAME
 
