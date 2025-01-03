@@ -75,21 +75,21 @@ Data in Cassandra1...
 
  id                                   | value
 --------------------------------------+--------------
- b9da1885-5454-4207-ba72-c313fa7b876d | Initial data
+ 86520438-70f8-4010-9495-b44b3a5f752e | Initial data
 
 (1 rows)
 Data in Cassandra2... 
 
  id                                   | value
 --------------------------------------+--------------
- b9da1885-5454-4207-ba72-c313fa7b876d | Initial data
+ 86520438-70f8-4010-9495-b44b3a5f752e | Initial data
 
 (1 rows)
 Data in Cassandra3... 
 
  id                                   | value
 --------------------------------------+--------------
- b9da1885-5454-4207-ba72-c313fa7b876d | Initial data
+ 86520438-70f8-4010-9495-b44b3a5f752e | Initial data
 
 (1 rows)
 Simulating network partition (disconnecting cassandra2 & cassandra3)... 
@@ -98,22 +98,22 @@ Data in Cassandra1...
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
 Data in Cassandra2... 
 
  id                                   | value
 --------------------------------------+--------------
- b9da1885-5454-4207-ba72-c313fa7b876d | Initial data
+ 86520438-70f8-4010-9495-b44b3a5f752e | Initial data
 
 (1 rows)
 Data in Cassandra3... 
 
  id                                   | value
 --------------------------------------+--------------
- b9da1885-5454-4207-ba72-c313fa7b876d | Initial data
+ 86520438-70f8-4010-9495-b44b3a5f752e | Initial data
 
 (1 rows)
 ✔ Data is written to Cassandra1, a partition in the table accross the cluster has been created due to prioritizing availability over consistency.
@@ -122,24 +122,24 @@ Data in Cassandra1...
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
 Data in Cassandra2... 
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
 Data in Cassandra3... 
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
 ✔ Data is synchronized on network reconnection.
@@ -153,25 +153,25 @@ Data in Cassandra1...
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
 Data in Cassandra2... 
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
 Data in Cassandra3... 
 
  id                                   | value
 --------------------------------------+----------------------------------
- b9da1885-5454-4207-ba72-c313fa7b876d |                     Initial data
- abbeb18c-8df3-4412-bfc5-435635a45b78 | During Consistency ONE partition
+ 4e8a97e7-433d-4069-b9b2-7a7388f878c6 | During Consistency ONE partition
+ 86520438-70f8-4010-9495-b44b3a5f752e |                     Initial data
 
 (2 rows)
-✖ Data is NOT written to Cassandra1 (and therefore not synchronized), a partition in the table has been avoided by sacrificing availability over consistency.
+✔ Data is NOT written to Cassandra1 (and therefore not synchronized), a partition in the table has been avoided by sacrificing availability over consistency.
 ```
