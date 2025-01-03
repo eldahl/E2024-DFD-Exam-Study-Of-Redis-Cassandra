@@ -25,17 +25,17 @@ docker exec cassandra1 cqlsh -e "USE testks; CREATE TABLE IF NOT EXISTS test_tab
 
 # Demonstrate AP (Partition Tolerance + Availability)
 printf "${RED}Demonstrating AP: Writing data to test_table during partition with consistency level ONE... ${NORMAL}\n"
-docker exec cassandra1 cqlsh -e "USE testks; CONSISTENCY ONE;"
-docker exec cassandra1 cqlsh -e "USE testks; INSERT INTO test_table (id, value) VALUES (uuid(), 'Initial data');"
+docker exec cassandra1 cqlsh -e "USE testks; CONSISTENCY ONE; INSERT INTO test_table (id, value) VALUES (uuid(), 'Initial data');"
+sleep 5
 
 ## Show data in test_table
 print_data
 
 ## Simulate network partition by disconnecting cassandra2 and cassandra3
-printf "${STATUS}Simulating network partition... ${NORMAL}\n"
-sleep 5
+printf "${STATUS}Simulating network partition (disconnecting cassandra2 & cassandra3)... ${NORMAL}\n"
 docker network disconnect $CLUSTER_NETWORK_NAME cassandra2
 docker network disconnect $CLUSTER_NETWORK_NAME cassandra3
+sleep 30
 
 ## Insert data during partition
 printf "${STATUS}Attempting write during partition... ${NORMAL}\n"
@@ -43,17 +43,17 @@ docker exec cassandra1 cqlsh -e "USE testks; INSERT INTO test_table (id, value) 
 
 ## Show data in test_table
 print_data
-log_success "Data is written to Cassandra1, a partition in the table accross the cluster has been created."
+log_success "Data is written to Cassandra1, a partition in the table accross the cluster has been created due to prioritizing availability over consistency."
 
 ## Reconnect the network
-printf "${STATUS}Reconnecting network and demonstrating eventual consistency... ${NORMAL}\n"
+printf "${STATUS}Reconnecting network to cassandra2 & cassandra3... ${NORMAL}\n"
 docker network connect $CLUSTER_NETWORK_NAME cassandra2
 docker network connect $CLUSTER_NETWORK_NAME cassandra3
 sleep 30  # Wait for Cassandra nodes to synchronize
 
 ## Show data in test_table
 print_data
-log_failure "Data is NOT synchronized on network reconnection."
+log_success "Data is synchronized on network reconnection."
 
 
 
@@ -62,27 +62,21 @@ printf "${RED}Demonstrating CP: Writing during partition with consistency level 
 
 ## Set consistency to quorum
 docker exec cassandra1 cqlsh -e "USE testks; CONSISTENCY QUORUM;"
+sleep 5
 
 ## Disconnect network
-printf "${STATUS}Simulating network partition... ${NORMAL}\n"
-sleep 5
+printf "${STATUS}Simulating network partition (disconnecting cassandra2 & cassandra3)... ${NORMAL}\n"
 docker network disconnect $CLUSTER_NETWORK_NAME cassandra2
 docker network disconnect $CLUSTER_NETWORK_NAME cassandra3
+sleep 30
 
 ## Write to Cassandra1
 printf "${STATUS}Attempting write during partition... ${NORMAL}\n"
-docker exec cassandra1 cqlsh -e "USE testks; INSERT INTO test_table (id, value) VALUES (uuid(), 'During Consistency QUORUM partition');"
+docker exec cassandra1 cqlsh -e "USE testks; CONSISTENCY QUORUM; INSERT INTO test_table (id, value) VALUES (uuid(), 'During Consistency QUORUM partition');"
 
 ## Show data in test_table
 print_data
-log_success "Data is written to Cassandra1, a partition in the table accross the cluster has been created."
+log_failure "Data is NOT written to Cassandra1 (and therefore not synchronized), a partition in the table has been avoided by sacrificing availability over consistency."
 
-## weconnect cassandra2 cassandra3
-printf "${STATUS}Reconnecting network... ${NORMAL}\n"
 docker network connect $CLUSTER_NETWORK_NAME cassandra2
 docker network connect $CLUSTER_NETWORK_NAME cassandra3
-sleep 30
-
-## Show data in test_table
-print_data
-log_success "Data is synchronized on network reconnection."
