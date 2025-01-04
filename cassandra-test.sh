@@ -76,7 +76,7 @@ docker exec cassandra1 cqlsh -e "USE testks; CONSISTENCY QUORUM; INSERT INTO tes
 
 ## Show data in test_table
 print_data
-log_failure "Data is NOT written to Cassandra1 (and therefore not synchronized), a partition in the table has been avoided by sacrificing availability over consistency."
+log_success "Data is NOT written to Cassandra1 (and therefore not synchronized), a partition in the table has been avoided by sacrificing availability over consistency."
 
 docker network connect $CLUSTER_NETWORK_NAME cassandra2
 docker network connect $CLUSTER_NETWORK_NAME cassandra3

@@ -5,12 +5,12 @@ CLUSTER_NETWORK_NAME="cassandra-cluster-network"
 # $1 is node/container name
 start_cluster_node() {
   docker run -d --name $1 --net $CLUSTER_NETWORK_NAME -e CASSANDRA_SEEDS=cassandra1 -e CASSANDRA_CLUSTER_NAME=my-cluster -e CASSANDRA_DC=my-datacenter-1 cassandra:latest
-  
-  ## Sleep for 5 seconds
+
   echo "Waiting for ${1} to start up."
   do_loop=true
   while [ $do_loop == true ]
   do
+    ## Sleep for 10 seconds
     sleep 10
 
     ## Get cluster info
@@ -60,7 +60,7 @@ else
 fi
 
 # Build dockerfile with custom configuration
-docker build -t custom-cassandra -f Cassandra.Dockerfile .
+#docker build -t custom-cassandra -f Cassandra.Dockerfile .
 
 clean_up
 start_cluster
